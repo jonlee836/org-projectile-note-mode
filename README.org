@@ -1,0 +1,9 @@
+#+TITLE:org-projectile-note-mode
+
+Whenever a project is opened org-projectile-notes will attempt to open
+the notes file. If it doesn't exist, it will create the file and
+create a hardlink inside your ~org-directory~.
+
+#+BEGIN_SRC elisp :eval no :tangle no :results verbatim
+(concat  org-directory "projects")
+#+END_SRC
