@@ -3,9 +3,10 @@
 (require 'projectile)
 
 ;; (defvar org-projectile-note-mode nil)
+(setq org-projectile-projects-file "~/study/projects.org")
 
 (defcustom org-projectile-note-storage-path (concat org-directory "projects")
-  "directory of project org files")
+  "hard link path")
 
 (defun org-projectile-note--str ()
   "returns the absolute path of a project specific note file. time stamp
