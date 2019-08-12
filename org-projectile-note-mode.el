@@ -2,7 +2,7 @@
 
 (require 'projectile)
 
-(defvar org-projectile-note-mode nil)
+;; (defvar org-projectile-note-mode nil)
 
 (defcustom org-projectile-note-storage-path (concat org-directory "projects")
   "directory of project org files")
@@ -32,15 +32,14 @@ is included to prevent name collisions"
          (note (concat (projectile-project-root) path))
          (file (file-name note)))
 
-    (unless (file-exists-p org-projectile-note-storage-path)
-      (mkdir org-projectile-note-storage-path))
-
     (cond ((not (file-exists-p path))
            (find-file path)
            (insert (concat  "#+TITLE:" (projectile-project-root) "\n\n"))
            (save-buffer)
            ;; create hardlink in `org-directory'
-           (dired-hardlink path (concat org-projectile-note-storage-path "/" file))
+           (unless (file-exists-p org-projectile-note-storage-path)
+             (mkdir org-projectile-note-storage-path)
+             (dired-hardlink path (concat org-projectile-note-storage-path "/" file)))
            ;; open file
            (when arg
              (find-file note)))
@@ -76,8 +75,8 @@ is included to prevent name collisions"
 project using projectile will open the project's org file first"
   :init-value nil
   :global t
-  :variable org-projectile-note-create
-  :group 'org-projectile-note-create
+  :variable org-projectile-note-mode
+  :group 'org-projectile-note-mode
 
   (cond (org-projectile-note-mode (add-hook 'projectile-after-switch-project-hook 'org-projectile-note-create))
         (t (remove-hook 'projectile-after-switch-project-hook 'org-projectile-note-create))))
